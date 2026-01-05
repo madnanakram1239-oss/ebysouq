@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/submit-product.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/submit-product",
+      "dest": "/api/submit-product.js",
+      "methods": ["GET", "POST", "OPTIONS"]
+    }
+  ]
+}
