@@ -57,8 +57,11 @@ export default async function handler(req, res) {
       }
     };
 
-    // 5. Send to Shopify
-    const shopifyResponse = await fetch(`https://${SHOP_URL}/admin/api/2023-10/products.json`, {
+  // 5. Send to Shopify
+    // Sanitize the URL (Remove https:// and trailing slashes if user added them)
+    const cleanShopUrl = SHOP_URL.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    
+    const shopifyResponse = await fetch(`https://${cleanShopUrl}/admin/api/2023-10/products.json`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -71,7 +74,9 @@ export default async function handler(req, res) {
 
     if (!shopifyResponse.ok) {
       console.error('Shopify API Error:', data);
-      return res.status(500).json({ error: 'Failed to create product in Shopify', details: data });
+      // Return the specific error from Shopify if available (e.g. "Access denied" or field validation errors)
+      const errorMessage = data.errors ? JSON.stringify(data.errors) : 'Failed to create product in Shopify';
+      return res.status(500).json({ error: errorMessage, details: data });
     }
 
     // 6. Success
