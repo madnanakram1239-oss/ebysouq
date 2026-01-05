@@ -1,0 +1,12 @@
+{
+  "name": "ebysouq-seller-automation",
+  "version": "1.0.0",
+  "description": "Serverless function to create Shopify products from seller dashboard",
+  "main": "api/submit-product.js",
+  "scripts": {
+    "start": "node api/submit-product.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
